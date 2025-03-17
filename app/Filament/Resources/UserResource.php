@@ -23,7 +23,12 @@ class UserResource extends Resource
     {
         return $form
             ->schema([
-                //
+            Forms\Components\TextInput::make('name')
+                ->required()
+                ->maxLength(255),
+            Forms\Components\TextInput::make('email')
+                ->required()
+                ->maxLength(255),
             ]);
     }
 
@@ -31,7 +36,15 @@ class UserResource extends Resource
     {
         return $table
             ->columns([
-                //
+                Tables\Columns\TextColumn::make('name')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('email'),
+                Tables\Columns\TextColumn::make('active')
+                ->badge()
+                ->color(fn (string $state): string => match ($state) {
+                    '1' => 'success',
+                    '0' => 'warning',
+                }),
             ])
             ->filters([
                 //
